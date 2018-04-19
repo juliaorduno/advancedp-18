@@ -1,4 +1,4 @@
-# Kata6: Shadows of the Knight - Episode 1
+# Kata8: Inflight Entertainment System
 
 ## Contexto
 Users on longer flights like to start a second movie right when their first one ends, but they complain that the plane usually lands before they can see the ending. So you're building a feature for choosing two movies whose total runtimes will equal the exact flight length.
