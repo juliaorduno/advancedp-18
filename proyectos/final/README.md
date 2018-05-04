@@ -29,10 +29,17 @@ Para cada caso de prueba, en una línea se implime la cantidad mínima a gastars
 
 ## Solución
 Se leen las entradas y se guardan en dos arreglos: precios y cupones.
-Después de leer las entradas, se recorre el arreglo de precios de cada test case.
-Para cada elemento, se calcula el precio del elemento *i+1, j* restándole el cupón. Posteriormente, se recorre cada elemento de la fila *i+1* manteniendo una referencia al valor mínimo encontrado y actualizandola en caso de ser necesario.
 
-Se realiza el procedimiento de cada elemento de la fila *i* y se saca el valor mínimo encontrado para dicha fila.
-Posteriormente, se realiza el mismo procedimiento con las demás filas.
-Se cuenta con un acumulador para ir sumando los valores de cada row.
+Primero se obtiene el valor mínimo del primer row y se van almacenando los precios en un arrego auxiliar *dp*.
+
+Después se recorre el arreglo de precios a partir de la segunda línea.
+Para cada elemento, se calcula el precio del elemento *i, j* restándole el cupón en *i-1,j*. Posteriormente, se hace la comparación de qué valor es menor:
+* El precio *i,j* menos el descuento o
+* El precio del valor mínimo de la fila *i-1* de *dp*, donde se almacenan los acumulados de precios, más el precio actual, sin descuento.
+
+El valor menor de ambos se almacena en el arreglo *dp* para cada tienda de se item.
+Luego se vuelve a calcular del valor mínimo de la siguiente fila y se realiza el mismo procedimiento con las demás filas.
+
+Cuando sea la última fila, se obtendrá del valor mínimo de todo el acumulado de precios para cada caso.
+
 

@@ -22,51 +22,50 @@ void getData(int n, int m, int **prices, int **coupons)
     }
 }
 
-int getLeastAmount(int n, int m, int **prices, int **coupons)
+long getLeastAmount(int n, int m, int **prices, int **coupons)
 {
-    int minValue;
-    int current, optionA, optionB, discount, currN;
-    int currentPrice = 0;
+    long dp[n][m], temp;
+    long minValue = 1000000;
+    int current, discount, optionA, optionB;
 
-    for (int i = 0; i < n - 1; i++)
+    for (int j = 0; j < m; j++)
     {
-        minValue = 100;
-        for (int j = 0; j < m; j++)
+        dp[0][j] = prices[0][j];
+        if (minValue > dp[0][j])
         {
-            currN = i + 1;
-            current = prices[i][j];
-            discount = coupons[i][j];
-            if (prices[currN][j] > discount)
-            {
-                optionA = current + prices[currN][j] - discount;
-            }
-            else
-            {
-                optionA = 0;
-            }
-
-            for (int k = 0; k < m; k++)
-            {
-                if (k == j)
-                {
-                    continue;
-                }
-
-                optionB = current + prices[currN][k];
-                if (optionB < optionA)
-                {
-                    optionA = optionB;
-                }
-            }
-            if (optionA < minValue)
-            {
-                minValue = optionA;
-            }
+            minValue = dp[0][j];
         }
-        currentPrice += minValue;
     }
 
-    return currentPrice;
+    for (int i = 1; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            current = prices[i][j];
+            discount = coupons[i - 1][j];
+            temp = current - discount;
+
+            if (temp < 0)
+            {
+                temp = 0;
+            }
+            optionA = temp + dp[i - 1][j];
+            optionB = minValue + current;
+            dp[i][j] = optionA < optionB ? optionA : optionB;
+        }
+
+        minValue = dp[i][0];
+
+        for (int j = 1; j < m; j++)
+        {
+            if (minValue > dp[i][j])
+            {
+                minValue = dp[i][j];
+            }
+        }
+    }
+
+    return minValue;
 }
 
 int main()
@@ -85,9 +84,9 @@ int main()
         int **coupons = (int **)malloc(n * sizeof(int *));
 
         getData(n, m, prices, coupons);
-        int minPrice = getLeastAmount(n, m, prices, coupons);
+        long minPrice = getLeastAmount(n, m, prices, coupons);
         free(prices);
         free(coupons);
-        printf("%d\n", minPrice);
+        printf("%ld\n", minPrice);
     }
 }
